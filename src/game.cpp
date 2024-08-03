@@ -1,54 +1,23 @@
+#include "gameState.hpp"
 #include "tree.hpp"
 #include "trex.hpp"
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
-
-#define WIDTH 600
-#define HEIGHT 300
-
-struct Position {
-  int x;
-  int y;
-};
+using namespace std;
 
 int main(void) {
+  GameState gameState;
+  Trex trex = gameState.getTrex();
+  Tree tree = gameState.getTree();
+
   RenderWindow window(
-      VideoMode(WIDTH, HEIGHT), "Dinosaur Game - SFML C++",
+      VideoMode(GameState::WINDOW_WIDTH, GameState::WINDOW_HEIGHT),
+      "Dinosaur Game - SFML C++",
       sf::Style::Titlebar | sf::Style::Close // Non-resizable window
   );
 
-  window.setFramerateLimit(60);
-
-  Texture trexRun1_T = Trex::getTexture(Trex::RUNNING_1);
-  Texture trexRun2_T = Trex::getTexture(Trex::RUNNING_2);
-  Texture tree_T = Tree::getTexture(Tree::SMALL);
-
-  Sprite dinoArr[2];
-  dinoArr[0] = Sprite(trexRun1_T);
-  dinoArr[1] = Sprite(trexRun2_T);
-
-  Sprite tree(tree_T);
-
-  static const int DINO_Y_BOTTOM = HEIGHT - trexRun1_T.getSize().y;
-  static const int TREE_Y_BOTTOM = HEIGHT - tree_T.getSize().y;
-
-  Position dinoPos;
-  dinoPos.x = 50;
-  dinoPos.y = DINO_Y_BOTTOM;
-
-  Position treePos;
-  treePos.x = WIDTH - tree_T.getSize().x;
-  treePos.y = TREE_Y_BOTTOM;
-
-  int index = 0;
-  float frame = 0.f;
-  float frameSpeed = 0.4f;
-  const int changeCount = 5;
-
-  const int gravity = 6;
-  bool isJumping = false;
-  bool isBottom = true;
+  window.setFramerateLimit(GameState::WINDOW_FRAMERATE_LIMIT);
 
   while (window.isOpen()) {
     Event event;
@@ -62,50 +31,65 @@ int main(void) {
 
     // dino jumping: isJumping -> in the process of flying up
     if (Keyboard::isKeyPressed(Keyboard::Space)) {
-      if (isBottom && !isJumping) {
-        isJumping = true;
-        isBottom = false;
+      if (trex.getIsBottom() && !trex.getIsJumping()) {
+        trex.setIsJumping(true);
+        trex.setIsBottom(false);
       }
     }
 
     // Jumping
-    if (isJumping) {
-      dinoPos.y -= gravity;
+    if (trex.getIsJumping()) {
+      trex.setY(trex.getY() - GameState::TREX_JUMP_SPEED);
     } else {
-      dinoPos.y += gravity;
+      trex.setY(trex.getY() + GameState::TREX_JUMP_SPEED);
     }
 
     // Jump limit
-    if (dinoPos.y <= DINO_Y_BOTTOM - trexRun1_T.getSize().y) {
-      isJumping = false;
+    if (trex.getY() <= gameState.trexJumpLimit) {
+      trex.setIsJumping(false);
     }
 
     // Bottom limit
-    if (dinoPos.y >= DINO_Y_BOTTOM) {
-      dinoPos.y = DINO_Y_BOTTOM;
-      isBottom = true;
+    if (trex.getY() >= gameState.trexRunningYBottom) {
+      trex.setY(gameState.trexRunningYBottom);
+      trex.setIsBottom(true);
     }
 
     // dino step
-    frame += frameSpeed;
-    if (frame > changeCount) {
-      frame -= changeCount;
-      ++index;
-      if (index >= 2) {
-        index = 0;
+    gameState.setTrexFrameTrack(gameState.getTrexFrameTrack() +
+                                GameState::TREX_FRAME_SPEED);
+    if (gameState.getTrexFrameTrack() > GameState::TREX_FRAME_LIMIT) {
+      gameState.setTrexFrameTrack(gameState.getTrexFrameTrack() -
+                                  GameState::TREX_FRAME_LIMIT);
+      gameState.setTrexSpriteIndex(gameState.getTrexSpriteIndex() + 1);
+      if (gameState.getTrexSpriteIndex() >= 2) {
+        gameState.setTrexSpriteIndex(0);
       }
     }
 
+    // tree move
+    if (tree.getX() <= 0) {
+      // Reset if out of screen
+      tree.setX(GameState::WINDOW_WIDTH -
+                gameState.treeSmallTexture.getSize().x);
+    } else {
+      tree.setX(tree.getX() - GameState::TREE_SPEED);
+    }
+
     // dino position
-    dinoArr[index].setPosition(dinoPos.x, dinoPos.y);
+    Sprite *trexSprites = gameState.getTrexSprites();
+    Sprite &trexSprite = trexSprites[gameState.getTrexSpriteIndex()];
+    trexSprite.setPosition(trex.getX(), trex.getY());
 
     // tree position
-    tree.setPosition(treePos.x, treePos.y);
+    Sprite *treeSprites = gameState.getTreeSprites();
+    Sprite &treeSprite = treeSprites[0];
+    treeSprite.setPosition(tree.getX(), tree.getY());
 
     // draw
     window.clear(Color::White);
-    window.draw(dinoArr[index]);
-    window.draw(tree);
+    window.draw(trexSprite);
+    window.draw(treeSprite);
     window.display();
   }
 }

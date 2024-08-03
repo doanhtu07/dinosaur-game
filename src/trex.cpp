@@ -1,9 +1,9 @@
 #include "trex.hpp"
 #include <SFML/Graphics.hpp>
 
-Trex::SpriteLoc Trex::spriteLoc;
-Trex::Running_1 Trex::running_1;
-Trex::Running_2 Trex::running_2;
+Trex::SpriteLoc const Trex::spriteLoc;
+Trex::Running_1 const Trex::running_1;
+Trex::Running_2 const Trex::running_2;
 
 Texture Trex::getTexture(TrexState state) {
   Texture t;

@@ -1,9 +1,9 @@
 #include "tree.hpp"
 
-Tree::SpriteLoc Tree::smallTreeSpriteLoc(446, 2);
-Tree::SpriteLoc Tree::largeTreeSpriteLoc(652, 2);
-Tree::Small Tree::small;
-Tree::Large Tree::large;
+Tree::SpriteLoc const Tree::smallTreeSpriteLoc(446, 2);
+Tree::SpriteLoc const Tree::largeTreeSpriteLoc(652, 2);
+Tree::Small const Tree::small;
+Tree::Large const Tree::large;
 
 Texture Tree::getTexture(TreeState state) {
   Texture t;

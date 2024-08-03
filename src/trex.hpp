@@ -27,13 +27,20 @@ class Trex {
     },
    */
 
+private:
+  bool isJumping = false;
+  bool isBottom = true;
+  int x = 0;
+  int y = 0;
+
+public:
   struct SpriteLoc {
     int x;
     int y;
     SpriteLoc() : x(1678), y(2) {}
   };
 
-  static SpriteLoc spriteLoc;
+  static const SpriteLoc spriteLoc;
 
   struct Running_1 {
     int x;
@@ -43,7 +50,7 @@ class Trex {
     Running_1() : x(88), w(44), h(47), xOffset(0) {}
   };
 
-  static Running_1 running_1;
+  static const Running_1 running_1;
 
   struct Running_2 {
     int x;
@@ -53,9 +60,8 @@ class Trex {
     Running_2() : x(132), w(44), h(47), xOffset(0) {}
   };
 
-  static Running_2 running_2;
+  static const Running_2 running_2;
 
-public:
   // Look up in GPT about `enum` vs `enum class`
   enum TrexState {
     RUNNING_1,
@@ -63,6 +69,16 @@ public:
   };
 
   static Texture getTexture(TrexState state);
+
+  // Setters and Getters
+  bool getIsJumping() { return isJumping; }
+  void setIsJumping(bool val) { isJumping = val; }
+  bool getIsBottom() { return isBottom; }
+  void setIsBottom(bool val) { isBottom = val; }
+  int getX() { return x; }
+  void setX(int val) { x = val; }
+  int getY() { return y; }
+  void setY(int val) { y = val; }
 };
 
 #endif

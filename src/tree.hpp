@@ -1,4 +1,3 @@
-
 #ifndef TREE_H
 #define TREE_H
 
@@ -39,14 +38,19 @@ class Tree {
     },
    */
 
+private:
+  int x = 0;
+  int y = 0;
+
+public:
   struct SpriteLoc {
     int x;
     int y;
     SpriteLoc(int xi, int yi) : x(xi), y(yi) {}
   };
 
-  static SpriteLoc smallTreeSpriteLoc;
-  static SpriteLoc largeTreeSpriteLoc;
+  static const SpriteLoc smallTreeSpriteLoc;
+  static const SpriteLoc largeTreeSpriteLoc;
 
   struct Small {
     int w;
@@ -54,7 +58,7 @@ class Tree {
     Small() : w(17), h(35) {}
   };
 
-  static Small small;
+  static const Small small;
 
   struct Large {
     int w;
@@ -62,9 +66,8 @@ class Tree {
     Large() : w(44), h(47) {}
   };
 
-  static Large large;
+  static const Large large;
 
-public:
   // Look up in GPT about `enum` vs `enum class`
   enum TreeState {
     SMALL,
@@ -72,6 +75,12 @@ public:
   };
 
   static Texture getTexture(TreeState state);
+
+  // Setters and Getters
+  int getX() { return x; }
+  void setX(int val) { x = val; }
+  int getY() { return y; }
+  void setY(int val) { y = val; }
 };
 
 #endif
