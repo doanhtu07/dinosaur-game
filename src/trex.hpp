@@ -33,7 +33,7 @@ class Trex {
     SpriteLoc() : x(1678), y(2) {}
   };
 
-  SpriteLoc spriteLoc;
+  static SpriteLoc spriteLoc;
 
   struct Running_1 {
     int x;
@@ -43,7 +43,7 @@ class Trex {
     Running_1() : x(88), w(44), h(47), xOffset(0) {}
   };
 
-  Running_1 running_1;
+  static Running_1 running_1;
 
   struct Running_2 {
     int x;
@@ -53,7 +53,7 @@ class Trex {
     Running_2() : x(132), w(44), h(47), xOffset(0) {}
   };
 
-  Running_2 running_2;
+  static Running_2 running_2;
 
 public:
   // Look up in GPT about `enum` vs `enum class`
@@ -62,7 +62,7 @@ public:
     RUNNING_2,
   };
 
-  Texture getTexture(TrexState state);
+  static Texture getTexture(TrexState state);
 };
 
 #endif

@@ -18,4 +18,4 @@ This is for me to learn and play around with C++ after a while
 
 ## Run
 
-Must run `./build/Dinosaur` at the root of the project so that it can find `images`
+**Old flow**: Must run `./build/Dinosaur` at the root of the project so that it can find `images`
