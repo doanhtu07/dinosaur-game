@@ -26,7 +26,9 @@ This is for me to learn and play around with C++ again after a while
 
 ## Run
 
-**LEGACY**: Must run `./build/Dinosaur` at the root of the project so that it can find `images`
+**LEGACY**: 
+
+- Must run `./build/Dinosaur` at the root of the project so that it can find `images`
 
 **NOW**:
 
