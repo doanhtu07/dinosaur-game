@@ -1,7 +1,9 @@
 #ifndef TREX_H
 #define TREX_H
 
+#include "collisionBox.hpp"
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 using namespace sf;
 
@@ -68,7 +70,12 @@ public:
     RUNNING_2,
   };
 
+  static const std::vector<CollisionBox> runningCollisionBoxes;
+
   static Texture getTexture(TrexState state);
+
+  std::vector<CollisionBox> getCollisionBoxes();
+  void drawCollisionBoxes(RenderWindow &window);
 
   // Setters and Getters
   bool getIsJumping() { return isJumping; }

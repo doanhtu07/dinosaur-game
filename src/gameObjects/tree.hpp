@@ -1,6 +1,7 @@
 #ifndef TREE_H
 #define TREE_H
 
+#include "collisionBox.hpp"
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
@@ -74,7 +75,13 @@ public:
     LARGE,
   };
 
+  static const std::vector<CollisionBox> smallCollisionBoxes;
+  static const std::vector<CollisionBox> largeCollisionBoxes;
+
   static Texture getTexture(TreeState state);
+
+  std::vector<CollisionBox> getCollisionBoxes();
+  void drawCollisionBoxes(RenderWindow &window);
 
   // Setters and Getters
   int getX() { return x; }
