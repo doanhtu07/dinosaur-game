@@ -1,15 +1,14 @@
 # dinosaur-game
 
-A simple jumping dinosaur game in C++
+A simple jumping dinosaur game in C++ that is inspired from T-Rex Runner game in Google Chrome
 
 This is for me to learn and play around with C++ again after a while
 
 ## Resources + Inspiration
 
-- https://www.youtube.com/watch?v=W9SfkPTn5BU
-- https://www.youtube.com/watch?v=JGfuUhcp0dE
-- https://github.com/congerh/dino?tab=readme-ov-file
-- https://source.chromium.org/chromium/chromium/src/+/main:components/neterror/resources/offline-sprite-definitions.js
+- Basic: https://www.youtube.com/watch?v=W9SfkPTn5BU
+- Extracted version: https://github.com/congerh/dino?tab=readme-ov-file
+- Source code: https://source.chromium.org/chromium/chromium/src/+/main:components/neterror/resources/offline-sprite-definitions.js
 
 ## Learning
 
