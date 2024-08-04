@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.30)
 
 # Change this to ON/OFF to enable/disable production build
-option(PRODUCTION_BUILD "Make this a production build" OFF)
+option(PRODUCTION_BUILD "Make this a production build" ON)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -36,8 +36,8 @@ if(PRODUCTION_BUILD)
   add_custom_command(
     TARGET ${PROJECT_NAME}
     POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_SOURCE_DIR}/src/resources ${CMAKE_BINARY_DIR}/resources)
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources
+            ${CMAKE_BINARY_DIR}/resources)
 else()
   # This is useful to get an ASSETS_PATH in your IDE during development
   target_compile_definitions(
