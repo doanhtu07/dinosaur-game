@@ -7,11 +7,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 project(Dinosaur)
 
-# https://github.com/microsoft/vcpkg/issues/8503
-find_package(
-  SFML
-  COMPONENTS graphics CONFIG
-  REQUIRED)
+# === Handle source files ===
+
+message(STATUS "Handle source files")
 
 # Define MY_SOURCES to be a list of all the source files for my game
 file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS
@@ -21,7 +19,21 @@ file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS
 add_executable(${CMAKE_PROJECT_NAME})
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${MY_SOURCES})
 
+# === Handle packages ===
+
+message(STATUS "Handle packages")
+
+# https://github.com/microsoft/vcpkg/issues/8503
+find_package(
+  SFML
+  COMPONENTS graphics CONFIG
+  REQUIRED)
+
 target_link_libraries(Dinosaur PRIVATE sfml-graphics)
+
+# === Handle resources folder ===
+
+message(STATUS "Handle resources folder")
 
 if(PRODUCTION_BUILD)
   # setup the ASSETS_PATH macro to be in the root folder of your exe
@@ -31,13 +43,11 @@ if(PRODUCTION_BUILD)
   # remove the option to debug asserts.
   target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=1)
 
-  # https://thomas.trocha.com/blog/cmake--copy-files-after-build/
-  # https://stackoverflow.com/questions/13429656/how-to-copy-contents-of-a-directory-into-build-directory-after-make-with-cmake
   add_custom_command(
     TARGET ${PROJECT_NAME}
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/resources
-            ${CMAKE_BINARY_DIR}/resources)
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
 else()
   # This is useful to get an ASSETS_PATH in your IDE during development
   target_compile_definitions(
@@ -47,8 +57,10 @@ else()
   target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC PRODUCTION_BUILD=0)
 endif()
 
-# https://stackoverflow.com/questions/59263015/cmake-how-to-change-compile-commands-json-output-location
-message(STATUS "Symlinking compile_commands.json")
+# === Handle compile_commands.json for editor to lint ===
+
+message(STATUS "Handle compile_commands.json for editor to lint")
+
 if(PROJECT_IS_TOP_LEVEL AND UNIX)
   # Create symlink to compile_commands.json for IDE to pick it up
   execute_process(
